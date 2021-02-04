@@ -11,9 +11,7 @@ class _DashbaordState extends State<Dashbaord> {
       body: Container(
         child: SizedBox(height: 20,),
       ),
-      appBar: AppBar(
-        title: Text("App Bar"),
-      ),
+      
     );
   }
 }

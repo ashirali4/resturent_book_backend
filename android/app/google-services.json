@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "242675679162",
+    "project_id": "resturent-c44a6",
+    "storage_bucket": "resturent-c44a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242675679162:android:cf1f44e44131e5dff0a783",
+        "android_client_info": {
+          "package_name": "com.analytic.resturent_book"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242675679162-d84ti82j13os2mjjg7jle1508mk4ilpk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsGriKho3DGGS6kvrbky36Nasdu6aWeeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242675679162-d84ti82j13os2mjjg7jle1508mk4ilpk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,9 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:resturent_book/routes.dart';
 
+import 'auth_pages/getting_started.dart';
+import 'auth_pages/login.dart';
 import 'pages/dashboard.dart';
-
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -19,7 +23,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Dashbaord(),
+      home: Login(),
       onGenerateRoute: generateRoute,
     );
   }
