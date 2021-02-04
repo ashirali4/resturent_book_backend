@@ -4,6 +4,7 @@ import 'package:resturent_book/routes.dart';
 
 import 'auth_pages/getting_started.dart';
 import 'auth_pages/login.dart';
+import 'auth_pages/signup.dart';
 import 'pages/dashboard.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Login(),
+      home: SignUp(),
       onGenerateRoute: generateRoute,
     );
   }

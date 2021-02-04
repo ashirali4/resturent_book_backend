@@ -191,7 +191,7 @@ class _LoginState extends State<Login> {
                                     ),
                                   ),
                                   Expanded(
-                                      flex: 5,
+                                      flex: 6,
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
 
@@ -226,7 +226,7 @@ class _LoginState extends State<Login> {
                                 child: RaisedButton(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      side: BorderSide(color: Colors.green)),
+                                      side: BorderSide(color: Colors.white)),
                                   onPressed: () async {
                                     if (formkey.currentState.validate()) {
                                     //   onLoading(context);
@@ -260,8 +260,8 @@ class _LoginState extends State<Login> {
                                   }
 
                                   },
-                                  color: Colors.green,
-                                  textColor: Colors.white,
+                                  color: Colors.white,
+                                  textColor: Colors.black87,
 
 
                                   child: Text("Login with e-mail",
@@ -284,8 +284,8 @@ class _LoginState extends State<Login> {
               color: Colors.black,
               image: new DecorationImage(
                 fit: BoxFit.cover,
-                colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                image: new AssetImage("assets/football.jpg"),
+                colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.1), BlendMode.dstATop),
+                image: new AssetImage("assets/sbg.jpg"),
               ),
             ),
           ),
