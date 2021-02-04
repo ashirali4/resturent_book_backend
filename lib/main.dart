@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SignUp(),
+      home: Getting_Started(),
       onGenerateRoute: generateRoute,
     );
   }

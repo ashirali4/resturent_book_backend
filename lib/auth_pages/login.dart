@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -32,21 +34,16 @@ class _LoginState extends State<Login> {
                 Expanded(
                   flex: 3,
                   child:  Padding(
-                    padding: const EdgeInsets.only(top: 70),
-                    child: Container(
-                        child:
-                        SingleChildScrollView(
-                          child: Column(
-                            children: [
+                    padding: const EdgeInsets.only(top: 40),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 200,
+                          child: SvgPicture.asset(
+                             "assets/icon.svg",color: Colors.white,height: 100,),
 
-                              Container(
-                                  height: 100,
-                                  width: 100,
-                                  child: Image.asset("assets/qlogo.png")),
-
-                            ],
-                          ),
-                        )
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -63,10 +60,9 @@ class _LoginState extends State<Login> {
                             children: [
 
                               Text("Login to Continue",
-                                style: TextStyle(
+                                style: GoogleFonts.poppins(
                                   fontSize: 23,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'OpenSans',
                                   color: Colors.white,
                                 ),),
                               SizedBox(height: 40,),
@@ -78,7 +74,7 @@ class _LoginState extends State<Login> {
                                   }
                                   return null;
                                 },
-                                style: TextStyle(
+                                style: GoogleFonts.poppins(
                                   color: Colors.white,
                                 ),
                                 keyboardType: TextInputType.emailAddress,
@@ -87,8 +83,7 @@ class _LoginState extends State<Login> {
 
                                     contentPadding: EdgeInsets.all(0.0),
                                     labelText: "Enter e-mail",
-                                    labelStyle: TextStyle(
-                                      fontFamily: "OpenSansBold",
+                                    labelStyle: GoogleFonts.poppins(
                                       color: Colors.white,
                                     ),
                                     enabledBorder: UnderlineInputBorder(
@@ -123,8 +118,8 @@ class _LoginState extends State<Login> {
 
                                     contentPadding: EdgeInsets.all(0.0),
                                     labelText: "Enter password",
-                                    labelStyle: TextStyle(
-                                      fontFamily: "OpenSansBold",
+                                    labelStyle: GoogleFonts.poppins(
+                                     // fontFamily: "OpenSansBold",
                                       color: Colors.white,
                                     ),
                                     enabledBorder: UnderlineInputBorder(
@@ -162,7 +157,7 @@ class _LoginState extends State<Login> {
                                                 : Icon(
                                               Icons.check_circle,
                                               size: 20.0,
-                                              color: Colors.green,
+                                              color: Colors.white,
                                             ),
 
                                           ),
@@ -175,10 +170,10 @@ class _LoginState extends State<Login> {
 
                                         InkWell(
                                             child: Text('  Remember me',
-                                              style: TextStyle(
+                                              style: GoogleFonts.poppins(
                                                 color: Color(0xff71828A),
                                                 fontSize: 12,
-                                                fontFamily: 'Poppins',
+                                              //  fontFamily: 'Poppins',
                                               ),
                                             ),
                                             onTap: (){
@@ -198,10 +193,10 @@ class _LoginState extends State<Login> {
                                         children: [
                                           InkWell(
                                             child: Text('Forgot password?',
-                                                style: TextStyle(
+                                                style:GoogleFonts.poppins(
                                                   color: Color(0xff71828A),
                                                   fontSize: 12,
-                                                  fontFamily: 'Poppins',
+                                                //  fontFamily: 'Poppins',
                                                 )),
                                             onTap: (){
                                               Navigator.pushNamed(context, "forgetpass");
@@ -230,33 +225,33 @@ class _LoginState extends State<Login> {
                                   onPressed: () async {
                                     if (formkey.currentState.validate()) {
                                     //   onLoading(context);
-                                    //   try {
-                                    //     LinkApi apilink=await fetchlink();
-                                    //     if(apilink.apiurl!=null){
-                                    //       final  user = (await _auth.signInWithEmailAndPassword(
-                                    //         email: emailcont.text,
-                                    //         password: passcont.text,
-                                    //       )).user;
-                                    //       Navigator.pushNamed(context, "dashboard",arguments: apilink.apiurl);
-                                    //     }
-                                    //
-                                    //   }
-                                    //   catch (error) {
-                                    //     //print(error.code);
-                                    //     switch (error.code) {
-                                    //       case 'user-not-found':
-                                    //         _responsehandle(null,message("Incorrect Email", Icons.close, Colors.red));
-                                    //         break;
-                                    //       case 'wrong-password':
-                                    //         _responsehandle(null,message("Wrong Password", Icons.close, Colors.red));
-                                    //         break;
-                                    //       case 'invalid-email':
-                                    //         _responsehandle(null,message("Invalid Email", Icons.alternate_email, Colors.red));
-                                    //         break;
-                                    //
-                                    //     }
-                                    //   }
-                                    //
+                                      try {
+                                     //   LinkApi apilink=await fetchlink();
+
+                                          final  user = (await _auth.signInWithEmailAndPassword(
+                                            email: emailcont.text,
+                                            password: passcont.text,
+                                          )).user;
+                                         // Navigator.pushNamed(context, "dashboard");
+
+
+                                      }
+                                      catch (error) {
+                                        //print(error.code);
+                                        switch (error.code) {
+                                          case 'user-not-found':
+                                            _responsehandle(null,message("Incorrect Email", Icons.close, Colors.red));
+                                            break;
+                                          case 'wrong-password':
+                                            _responsehandle(null,message("Wrong Password", Icons.close, Colors.red));
+                                            break;
+                                          case 'invalid-email':
+                                            _responsehandle(null,message("Invalid Email", Icons.alternate_email, Colors.red));
+                                            break;
+
+                                        }
+                                      }
+
                                   }
 
                                   },
@@ -265,7 +260,7 @@ class _LoginState extends State<Login> {
 
 
                                   child: Text("Login with e-mail",
-                                      style: TextStyle(fontSize: 14)),
+                                      style: GoogleFonts.poppins(fontSize: 14)),
                                 ),
                               ),
                               SizedBox(height: 30,),

@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 class SignUp extends StatefulWidget {
   @override
   SignUpState createState() => SignUpState();
@@ -41,15 +43,17 @@ class SignUpState extends State<SignUp> {
                   Expanded(
                     flex: 4,
                     child:  Padding(
-                      padding: const EdgeInsets.only(top: 70),
+                      padding: const EdgeInsets.only(top: 40),
                       child: Container(
                           child:
                           Column(
                             children: [
                               Container(
-                                  height: 100,
-                                  width: 100,
-                                  child: Image.asset("assets/qlogo.png")),
+                                height: 200,
+                                child: SvgPicture.asset(
+                                  "assets/icon.svg",color: Colors.white,height: 100,),
+
+                              ),
 
                             ],
                           )
@@ -69,10 +73,9 @@ class SignUpState extends State<SignUp> {
                                 children: [
 
                                   Text("Sign up using email",
-                                    style: TextStyle(
+                                    style: GoogleFonts.poppins(
                                       fontSize: 23,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: 'OpenSans',
                                       color: Colors.white,
                                     ),),
                                   SizedBox(height: 40,),
@@ -93,8 +96,8 @@ class SignUpState extends State<SignUp> {
 
                                         contentPadding: EdgeInsets.all(0.0),
                                         labelText: "Enter your name",
-                                        labelStyle: TextStyle(
-                                          fontFamily: "OpenSansBold",
+                                        labelStyle:GoogleFonts.poppins(
+                                         // fontFamily: "OpenSansBold",
                                           color: Colors.white,
                                         ),
                                         enabledBorder: UnderlineInputBorder(
@@ -128,8 +131,8 @@ class SignUpState extends State<SignUp> {
 
                                         contentPadding: EdgeInsets.all(0.0),
                                         labelText: "Enter e-mail",
-                                        labelStyle: TextStyle(
-                                          fontFamily: "OpenSansBold",
+                                        labelStyle: GoogleFonts.poppins(
+                                        //  fontFamily: "OpenSansBold",
                                           color: Colors.white,
                                         ),
                                         enabledBorder: UnderlineInputBorder(
@@ -163,8 +166,8 @@ class SignUpState extends State<SignUp> {
 
                                         contentPadding: EdgeInsets.all(0.0),
                                         labelText: "Enter password",
-                                        labelStyle: TextStyle(
-                                          fontFamily: "OpenSansBold",
+                                        labelStyle: GoogleFonts.poppins(
+                                          //fontFamily: "OpenSansBold",
                                           color: Colors.white,
                                         ),
                                         enabledBorder: UnderlineInputBorder(
@@ -182,12 +185,12 @@ class SignUpState extends State<SignUp> {
                                   SizedBox(height: 10,),
 
                                   SizedBox(height: 40,),
-                                  // Text("By Signing Up you agree to our Terms and Conditions.",
-                                  //   style: TextStyle(
-                                  //     fontSize: 13,
-                                  //     fontFamily: 'OpenSans',
-                                  //     color: Colors.white.withOpacity(.8),
-                                  //   ),),
+                                  Text("By Signing Up you agree to our Terms and Conditions.",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                     // fontFamily: 'OpenSans',
+                                      color: Colors.white.withOpacity(.8),
+                                    ),),
                                   SizedBox(height: 50,),
                                   Container(
                                     height: 50,
@@ -196,42 +199,42 @@ class SignUpState extends State<SignUp> {
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(5.0),
                                           side: BorderSide(color: Colors.white)),
-                                      // onPressed: () async {
-                                      //   if (formkey.currentState.validate()) {
-                                      //     onLoading(context);
-                                      //
-                                      //     try {
-                                      //       final  user = (await
-                                      //       _auth.createUserWithEmailAndPassword(
-                                      //         email: _emailController.text,
-                                      //         password: _passwordController.text,
-                                      //       )
-                                      //       ).user;
-                                      //       insert_user_info(user.uid,user.email,_fullnameController.text);
-                                      //       _responsehandle(user,message("Sign Up Completed", Icons.check_circle_outline, Colors.green));
-                                      //
-                                      //     } catch (error) {
-                                      //       print(error.code);
-                                      //       switch (error.code) {
-                                      //         case 'email-already-in-use':
-                                      //           _responsehandle(null,message("Duplicate Email", Icons.cancel, Colors.red));
-                                      //           break;
-                                      //         case 'network-request-failed':
-                                      //           _responsehandle(null,message("No Network Connection", Icons.network_check, Colors.orange));
-                                      //           break;
-                                      //         case 'invalid-email':
-                                      //           _responsehandle(null,message("Invalid Email", Icons.alternate_email, Colors.red));
-                                      //           break;
-                                      //
-                                      //       }
-                                      //     }
-                                      //   }
-                                      // },
+                                      onPressed: () async {
+                                        if (formkey.currentState.validate()) {
+                                          //onLoading(context);
+
+                                          try {
+                                            final  user = (await
+                                            _auth.createUserWithEmailAndPassword(
+                                              email: _emailController.text,
+                                              password: _passwordController.text,
+                                            )
+                                            ).user;
+                                          //  insert_user_info(user.uid,user.email,_fullnameController.text);
+                                            _responsehandle(user,message("Sign Up Completed", Icons.check_circle_outline, Colors.green));
+
+                                          } catch (error) {
+                                            print(error.code);
+                                            switch (error.code) {
+                                              case 'email-already-in-use':
+                                                _responsehandle(null,message("Duplicate Email", Icons.cancel, Colors.red));
+                                                break;
+                                              case 'network-request-failed':
+                                                _responsehandle(null,message("No Network Connection", Icons.network_check, Colors.orange));
+                                                break;
+                                              case 'invalid-email':
+                                                _responsehandle(null,message("Invalid Email", Icons.alternate_email, Colors.red));
+                                                break;
+
+                                            }
+                                          }
+                                        }
+                                      },
 
                                       textColor: Colors.black87,
                                       color: Colors.white,
                                       child: Text("Click to Sign Up",
-                                          style: TextStyle(fontSize: 14)),
+                                          style: GoogleFonts.poppins(fontSize: 14)),
                                     ),
                                   ),
                                   SizedBox(height: 30,),
@@ -250,7 +253,7 @@ class SignUpState extends State<SignUp> {
                 color: Colors.black,
                 image: new DecorationImage(
                   fit: BoxFit.cover,
-                  colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.1), BlendMode.dstATop),
+                  colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
                   image: new AssetImage("assets/sbg.jpg"),
                 ),
               ),

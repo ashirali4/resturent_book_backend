@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:resturent_book/auth_pages/signup.dart';
+
+import 'auth_pages/login.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   var signuparg=settings.arguments;
@@ -7,8 +10,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
 
 
-   // case 'towardslogin':
-     // return MaterialPageRoute(builder: (context) => welcomescreen());
+    case 'signup':
+      return MaterialPageRoute(builder: (context) => SignUp());
+
+    case 'login':
+      return MaterialPageRoute(builder: (context) => Login());
 
   }
 }
