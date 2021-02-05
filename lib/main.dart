@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:resturent_book/dashboard_pages/home.dart';
 import 'package:resturent_book/routes.dart';
 
 import 'auth_pages/getting_started.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Getting_Started(),
+      home: Dashbaord(),
       onGenerateRoute: generateRoute,
     );
   }
