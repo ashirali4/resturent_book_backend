@@ -48,14 +48,14 @@ class _Getting_StartedState extends State<Getting_Started> {
                   child: Container(
                     child: Column(
                       children: [
-                        Text("Book Restaurant Table Easily From Home",
+                        Text("View & Manage Restaurant Booking",
                           style: GoogleFonts.poppins(
                             fontSize: 23,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),),
                         SizedBox(height: 10,),
-                        Text("Book Any Table With Any Food Easily From Anywhere Without Payment",
+                        Text("Backend App for bookings Management and for Registrations",
                           style: GoogleFonts.poppins(
                             fontSize: 13,
                             color: Colors.white.withOpacity(.8),
@@ -73,7 +73,7 @@ class _Getting_StartedState extends State<Getting_Started> {
                             },
                             color: Colors.white,
                             textColor: Colors.black87,
-                            child: Text("Create an Account",
+                            child: Text("Register Your Restaurant",
                                 style: GoogleFonts.poppins(fontSize: 14)),
                           ),
                         ),
@@ -90,7 +90,7 @@ class _Getting_StartedState extends State<Getting_Started> {
                             },
                             color: Colors.transparent,
                             textColor: Colors.white,
-                            child: Text("Login with e-mail",
+                            child: Text("Login to your Restaurant",
                                 style: GoogleFonts.poppins(fontSize: 14)),
                           ),
                         ),

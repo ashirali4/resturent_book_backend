@@ -1,10 +1,18 @@
+
+
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:resturent_book/firebase.dart';
+import 'package:path/path.dart';
+
 class SignUp extends StatefulWidget {
   @override
   SignUpState createState() => SignUpState();
@@ -19,7 +27,8 @@ class SignUpState extends State<SignUp> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _fullnameController = TextEditingController();
   final databaseReference = FirebaseDatabase.instance.reference();
-
+  File _imageFile;
+  final picker = ImagePicker();
   bool _success;
   String _userEmail;
   String _password;
@@ -29,7 +38,38 @@ class SignUpState extends State<SignUp> {
   initState(){
     SystemChrome.setEnabledSystemUIOverlays([]);
   }
+
+  String url;
+
+  Future pickImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      _imageFile = File(pickedFile.path);
+    });
+  }
+
+  uploadImageToFirebase(BuildContext context) async {
+    final _firebaseStorage = FirebaseStorage.instance;
+    final _imagePicker = ImagePicker();
+
+    if (_imageFile != null){
+      //Upload to Firebase
+      var snapshot = await _firebaseStorage.ref()
+          .child('images/imageName')
+          .putFile(_imageFile);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      setState(() {
+        url = downloadUrl;
+      });
+    } else {
+      print('No Image Path Received');
+    }
+  }
+
+
   Widget build(BuildContext context) {
+    print(url);
     SystemChrome.setEnabledSystemUIOverlays([]);
     return SafeArea(
       child: Scaffold(
@@ -47,16 +87,32 @@ class SignUpState extends State<SignUp> {
                       padding: const EdgeInsets.only(top: 40),
                       child: Container(
                           child:
-                          Column(
-                            children: [
-                              Container(
-                                height: 200,
-                                child: SvgPicture.asset(
-                                  "assets/icon.svg",color: Colors.white,height: 100,),
+                          SingleChildScrollView(
+                            child: Column(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Add Your Restaurant",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),),
+                                SizedBox(height: 30,),
 
-                              ),
+                                InkWell(
+                                  onTap: (){
+                                    pickImage();
+                                  },
+                                  child: Container(
+                                    height: 100,
+                                    child: SvgPicture.asset(
+                                      "assets/add.svg",color: Colors.white,height: 150,),
 
-                            ],
+                                  ),
+                                ),
+
+                              ],
+                            ),
                           )
                       ),
                     ),
@@ -73,12 +129,7 @@ class SignUpState extends State<SignUp> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
 
-                                  Text("Sign up using email",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),),
+
                                   SizedBox(height: 40,),
                                   TextFormField(
                                     controller: _fullnameController,
@@ -96,7 +147,7 @@ class SignUpState extends State<SignUp> {
 
 
                                         contentPadding: EdgeInsets.all(0.0),
-                                        labelText: "Enter your name",
+                                        labelText: "Enter your Restaurant Name",
                                         labelStyle:GoogleFonts.poppins(
                                          // fontFamily: "OpenSansBold",
                                           color: Colors.white,
@@ -202,41 +253,42 @@ class SignUpState extends State<SignUp> {
                                           borderRadius: BorderRadius.circular(5.0),
                                           side: BorderSide(color: Colors.white)),
                                       onPressed: () async {
-                                        if (formkey.currentState.validate()) {
-                                          //onLoading(context);
-
-                                          try {
-                                            final  user = (await
-                                            _auth.createUserWithEmailAndPassword(
-                                              email: _emailController.text,
-                                              password: _passwordController.text,
-                                            )
-                                            ).user;
-                                            Firebase_Helper helper=new Firebase_Helper();
-                                            helper.insert_user_info(user.uid,user.email,_fullnameController.text);
-                                            _responsehandle(user,message("Sign Up Completed", Icons.check_circle_outline, Colors.green));
-
-                                          } catch (error) {
-                                            print(error.code);
-                                            switch (error.code) {
-                                              case 'email-already-in-use':
-                                                _responsehandle(null,message("Duplicate Email", Icons.cancel, Colors.red));
-                                                break;
-                                              case 'network-request-failed':
-                                                _responsehandle(null,message("No Network Connection", Icons.network_check, Colors.orange));
-                                                break;
-                                              case 'invalid-email':
-                                                _responsehandle(null,message("Invalid Email", Icons.alternate_email, Colors.red));
-                                                break;
-
-                                            }
-                                          }
-                                        }
+                                        uploadImageToFirebase(context);
+                                        // if (true) {
+                                        //   //onLoading(context);
+                                        //
+                                        //   try {
+                                        //     final  user = (await
+                                        //     _auth.createUserWithEmailAndPassword(
+                                        //       email: _emailController.text,
+                                        //       password: _passwordController.text,
+                                        //     )
+                                        //     ).user;
+                                        //     Firebase_Helper helper=new Firebase_Helper();
+                                        //    // helper.insert_user_info(user.uid,user.email,_fullnameController.text);
+                                        //     _responsehandle(user,message("Sign Up Completed", Icons.check_circle_outline, Colors.green),context);
+                                        //
+                                        //   } catch (error) {
+                                        //     print(error.code);
+                                        //     switch (error.code) {
+                                        //       case 'email-already-in-use':
+                                        //         _responsehandle(null,message("Duplicate Email", Icons.cancel, Colors.red),context);
+                                        //         break;
+                                        //       case 'network-request-failed':
+                                        //         _responsehandle(null,message("No Network Connection", Icons.network_check, Colors.orange),context);
+                                        //         break;
+                                        //       case 'invalid-email':
+                                        //         _responsehandle(null,message("Invalid Email", Icons.alternate_email, Colors.red),context);
+                                        //         break;
+                                        //
+                                        //     }
+                                        //   }
+                                        // }
                                       },
 
                                       textColor: Colors.black87,
                                       color: Colors.white,
-                                      child: Text("Click to Sign Up",
+                                      child: Text("Click to Register Your Restaurant",
                                           style: GoogleFonts.poppins(fontSize: 14)),
                                     ),
                                   ),
@@ -268,7 +320,7 @@ class SignUpState extends State<SignUp> {
   }
 
 
-  Widget _responsehandle(var user,Widget response){
+  Widget _responsehandle(var user,Widget response,BuildContext context){
 
     Navigator.pop(context);
     showDialog(
