@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:resturent_book/firebase.dart';
 class SignUp extends StatefulWidget {
   @override
   SignUpState createState() => SignUpState();
@@ -150,6 +151,7 @@ class SignUpState extends State<SignUp> {
                                   ),
                                   SizedBox(height: 20,),
                                   TextFormField(
+                                    obscureText: true,
                                     controller: _passwordController,
                                     validator: (value) {
                                       if (value.isEmpty) {
@@ -210,7 +212,8 @@ class SignUpState extends State<SignUp> {
                                               password: _passwordController.text,
                                             )
                                             ).user;
-                                          //  insert_user_info(user.uid,user.email,_fullnameController.text);
+                                            Firebase_Helper helper=new Firebase_Helper();
+                                            helper.insert_user_info(user.uid,user.email,_fullnameController.text);
                                             _responsehandle(user,message("Sign Up Completed", Icons.check_circle_outline, Colors.green));
 
                                           } catch (error) {
@@ -275,13 +278,13 @@ class SignUpState extends State<SignUp> {
         return WillPopScope(
           onWillPop: (){
             Navigator.pop(context);
-            Navigator.pop(context);
+
             return null;
           },
           child: GestureDetector(
             onTap:(){
               Navigator.pop(context);
-              Navigator.pop(context);
+
             },
             child: Dialog(
               child: Padding(

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Dashbaord(),
+      home: Getting_Started(),
       onGenerateRoute: generateRoute,
     );
   }

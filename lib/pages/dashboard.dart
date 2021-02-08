@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:resturent_book/dashboard_pages/bookings_list.dart';
 import 'package:resturent_book/dashboard_pages/home.dart';
+import 'package:resturent_book/dashboard_pages/home_without_search.dart';
 import 'package:resturent_book/dashboard_pages/profile.dart';
 class Dashbaord extends StatefulWidget {
   @override
@@ -12,11 +13,9 @@ class Dashbaord extends StatefulWidget {
 class _DashbaordState extends State<Dashbaord> {
   int _selectedIndex = 0;
    List<Widget> _widgetOptions = <Widget>[
-    Home(),
-    Text(
-      'Index 0: Home',
-    ),
-      Profile(),
+     Home_Dashboard(),
+     Home(),
+     Profile(),
      Bookings_List()
 
 

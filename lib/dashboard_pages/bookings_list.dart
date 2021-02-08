@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ class Bookings_List extends StatefulWidget {
 }
 
 class _HomeState extends State<Bookings_List> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,7 +65,7 @@ class _HomeState extends State<Bookings_List> {
                 height: MediaQuery.of(context).size.height-167,
                 child: new FirebaseAnimatedList(
                     query: FirebaseDatabase.instance
-                        .reference().child("bookings")
+                        .reference().child("bookings").child(auth.currentUser.uid.toString())
                         .orderByChild("date"),
                     padding: new EdgeInsets.only(bottom: 100),
                     reverse: false,

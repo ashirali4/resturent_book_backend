@@ -35,15 +35,17 @@ class _LoginState extends State<Login> {
                   flex: 3,
                   child:  Padding(
                     padding: const EdgeInsets.only(top: 40),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 200,
-                          child: SvgPicture.asset(
-                             "assets/icon.svg",color: Colors.white,height: 100,),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 200,
+                            child: SvgPicture.asset(
+                               "assets/icon.svg",color: Colors.white,height: 100,),
 
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -232,7 +234,7 @@ class _LoginState extends State<Login> {
                                             email: emailcont.text,
                                             password: passcont.text,
                                           )).user;
-                                         // Navigator.pushNamed(context, "dashboard");
+                                          Navigator.pushNamed(context, "dashboard");
 
 
                                       }
