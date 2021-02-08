@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resturent_book/auth_pages/signup.dart';
+import 'package:resturent_book/pages/book.dart';
 
 import 'auth_pages/login.dart';
 
@@ -15,6 +16,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case 'login':
       return MaterialPageRoute(builder: (context) => Login());
+
+    case 'booking':
+      return MaterialPageRoute(builder: (context) => book(signuparg));
 
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:resturent_book/dashboard_pages/bookings_list.dart';
 import 'package:resturent_book/dashboard_pages/home.dart';
+import 'package:resturent_book/dashboard_pages/profile.dart';
 class Dashbaord extends StatefulWidget {
   @override
   _DashbaordState createState() => _DashbaordState();
@@ -14,9 +16,8 @@ class _DashbaordState extends State<Dashbaord> {
     Text(
       'Index 0: Home',
     ),
-    Text(
-      'Index 1: Business',
-    ),
+      Profile(),
+     Bookings_List()
 
 
   ];

@@ -1,3 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,11 +13,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20,right: 12,left: 12),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20,right: 12,left: 12),
+        child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 20,),
               Center(
                   child:   Container(
                     decoration: BoxDecoration(
@@ -66,13 +70,38 @@ class _HomeState extends State<Home> {
                   )
               ),
               SizedBox(height: 20,),
-              Item("Pizza Hut","assets/buger.png","(300)"),
-              SizedBox(height: 10,),
-              Item("Subway","assets/sub.jpeg","(200)"),
-              SizedBox(height: 10,),
-              Item("Biryani House","assets/kar.jpg","(330)"),
-              SizedBox(height: 10,),
-              Item("Pizza Hut","assets/buger.png","(300)"),
+              new Container(
+                height: MediaQuery.of(context).size.height-167,
+                child: new FirebaseAnimatedList(
+                    query: FirebaseDatabase.instance
+                        .reference().child("resturants")
+                        .orderByChild("reviews"),
+                    padding: new EdgeInsets.only(bottom: 100),
+                    reverse: false,
+                    itemBuilder: (_, DataSnapshot snapshot,
+                        Animation<double> animation, int x) {
+
+                      return new Column(
+                        children: [
+                          Item(snapshot.value['name'].toString(),snapshot.value['image'].toString(),snapshot.value['reviews'].toString(),snapshot),
+                          SizedBox(height: 20,),
+
+                        ],
+
+                      );
+                    }
+
+                ),
+              ),
+
+              // SizedBox(height: 20,),
+              // Item("Pizza Hut","assets/buger.png","(300)"),
+              // SizedBox(height: 10,),
+              // Item("Subway","assets/sub.jpeg","(200)"),
+              // SizedBox(height: 10,),
+              // Item("Biryani House","assets/kar.jpg","(330)"),
+              // SizedBox(height: 10,),
+              // Item("Pizza Hut","assets/buger.png","(300)"),
 
 
             ],
@@ -81,7 +110,8 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-  Widget Item(String name,String image, String reviews){
+  Widget Item(String name,String image, String reviews,DataSnapshot data){
+    print(image);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -96,12 +126,11 @@ class _HomeState extends State<Home> {
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
                 color: Colors.black26,
                 image: DecorationImage(
-                    image: AssetImage(image),
+                    image: NetworkImage(image),
                     fit: BoxFit.cover
                 )
             ),
             height: 185,
-
           ),
           Padding(
               padding: const EdgeInsets.only(left: 15,right: 15),
@@ -140,7 +169,7 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             SizedBox(width: 03,),
-                            Text(reviews,
+                            Text("("+reviews+")",
                               style: GoogleFonts.poppins(fontSize: 10),)
                           ],
                         )
@@ -156,7 +185,9 @@ class _HomeState extends State<Home> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                                 side: BorderSide(color: Colors.white)),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, "booking",arguments: data);
+                            },
                             color: Colors.white,
                             textColor: Colors.black,
                             child: Text("BOOK NOW".toUpperCase(),
