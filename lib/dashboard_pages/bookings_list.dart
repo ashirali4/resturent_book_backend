@@ -12,96 +12,100 @@ class Bookings_List extends StatefulWidget {
 
 class _HomeState extends State<Bookings_List> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-
+  List<Map<dynamic, dynamic>> lists = [];
+  final dbRef = FirebaseDatabase.instance.reference().child("bookings");
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
         padding: const EdgeInsets.only(top: 20,right: 12,left: 12),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 20,),
-              Center(
-                  child:   Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 10,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
-                      color: Colors.black26,
-                      borderRadius: BorderRadius.all(Radius.circular(7)),
-                    ),
-                    child: Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.transparent,
-                        primaryColorDark: Colors.transparent,
-
+        child: Column(
+          children: [
+            SizedBox(height: 20,),
+            Center(
+                child:   Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 10,
+                        offset: const Offset(0, 1),
                       ),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 10,),
-                          Icon(Icons.bookmark,color: Colors.white,),
-                          SizedBox(width: 05,),
+                    ],
+                    color: Colors.black26,
+                    borderRadius: BorderRadius.all(Radius.circular(7)),
+                  ),
+                  child: Theme(
+                    data: new ThemeData(
+                      primaryColor: Colors.transparent,
+                      primaryColorDark: Colors.transparent,
 
-                          Text("Your Bookings",
-                            style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold
-                            ),),
-                        ],
-                      )
                     ),
-                  )
-              ),
-              SizedBox(height: 20,),
-              new Container(
-                height: MediaQuery.of(context).size.height-167,
-                child: new FirebaseAnimatedList(
-                    query: FirebaseDatabase.instance
-                        .reference().child("bookings").child(auth.currentUser.uid.toString())
-                        .orderByChild("date"),
-                    padding: new EdgeInsets.only(bottom: 100),
-                    reverse: false,
-                    itemBuilder: (_, DataSnapshot snapshot,
-                        Animation<double> animation, int x) {
+                    child: Row(
+                      children: [
+                        SizedBox(width: 10,),
+                        Icon(Icons.bookmark,color: Colors.white,),
+                        SizedBox(width: 05,),
 
-                      return new Column(
-                        children: [
-                          Bookingitem(snapshot),
-                          SizedBox(height: 10,),
+                        Text("Restaurants Bookings",
+                          style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold
+                          ),),
+                      ],
+                    )
+                  ),
+                )
+            ),
+            SizedBox(height: 20,),
+            Expanded(
 
-                        ],
+              child: FutureBuilder(
+                  future: dbRef.once(),
+                  builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      lists.clear();
 
-                      );
+                      Map<dynamic, dynamic> values = snapshot.data.value;
+                      values.forEach((key, values) {
+                        for (var key in values.keys) {
+                         if(auth.currentUser.uid==values[key]['res_id']){
+                           lists.add(values[key]);
+                         }
+
+                        }
+                      });
+                      return new ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: lists.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            print(lists.length);
+                            return Bookingitem(lists[index]);
+                          });
                     }
+                    return CircularProgressIndicator();
+                  }),
+            )
 
-                ),
-              ),
-
-              // SizedBox(height: 20,),
-              // Item("Pizza Hut","assets/buger.png","(300)"),
-              // SizedBox(height: 10,),
-              // Item("Subway","assets/sub.jpeg","(200)"),
-              // SizedBox(height: 10,),
-              // Item("Biryani House","assets/kar.jpg","(330)"),
-              // SizedBox(height: 10,),
-              // Item("Pizza Hut","assets/buger.png","(300)"),
+            // SizedBox(height: 20,),
+            // Item("Pizza Hut","assets/buger.png","(300)"),
+            // SizedBox(height: 10,),
+            // Item("Subway","assets/sub.jpeg","(200)"),
+            // SizedBox(height: 10,),
+            // Item("Biryani House","assets/kar.jpg","(330)"),
+            // SizedBox(height: 10,),
+            // Item("Pizza Hut","assets/buger.png","(300)"),
 
 
-            ],
-          ),
+          ],
         ),
       ),
     );
   }
-  Widget Bookingitem(DataSnapshot data){
+  Widget Bookingitem(Map<dynamic, dynamic> lists){
 
     return Container(
       decoration: BoxDecoration(
@@ -120,7 +124,7 @@ class _HomeState extends State<Bookings_List> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.black26,
                   image: DecorationImage(
-                      image: NetworkImage(data.value['image'].toString()),
+                      image: NetworkImage(lists['image'].toString()),
                       fit: BoxFit.cover
                   )
               ),
@@ -145,14 +149,14 @@ class _HomeState extends State<Bookings_List> {
                               color: Colors.white.withOpacity(.5),
                               fontWeight: FontWeight.w500,
                           ),),
-                        Text(data.value['booking_id'].toString(),
+                        Text(lists['booking_id'].toString(),
                           style: GoogleFonts.poppins(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
                             color: Colors.white.withOpacity(.8)
                           ),),
                         SizedBox(height: 0,),
-                        Text(data.value['res_name'].toString(),
+                        Text(lists['res_name'].toString(),
                           style: GoogleFonts.poppins(
                               fontSize: 18,
                               fontWeight: FontWeight.bold
@@ -165,7 +169,7 @@ class _HomeState extends State<Bookings_List> {
                             SizedBox(width: 03,),
                             Padding(
                               padding: const EdgeInsets.only(top: 01),
-                              child: Text(data.value['date'].toString(),
+                              child: Text(lists['date'].toString(),
                                 style: GoogleFonts.poppins(fontSize: 10),),
                             ),
                             SizedBox(width: 08,),
@@ -174,7 +178,7 @@ class _HomeState extends State<Bookings_List> {
                             SizedBox(width: 03,),
                             Padding(
                               padding: const EdgeInsets.only(top: 01),
-                              child: Text(data.value['time'].toString(),
+                              child: Text(lists['time'].toString(),
                                 style: GoogleFonts.poppins(fontSize: 10),),
                             )
 
@@ -185,7 +189,7 @@ class _HomeState extends State<Bookings_List> {
                             SizedBox(width: 03,),
                             Padding(
                               padding: const EdgeInsets.only(top: 01),
-                              child: Text(data.value['people'].toString(),
+                              child: Text(lists['people'].toString(),
                                 style: GoogleFonts.poppins(fontSize: 10),),
                             )
 

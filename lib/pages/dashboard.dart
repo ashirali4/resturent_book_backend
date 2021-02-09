@@ -13,10 +13,9 @@ class Dashbaord extends StatefulWidget {
 class _DashbaordState extends State<Dashbaord> {
   int _selectedIndex = 0;
    List<Widget> _widgetOptions = <Widget>[
-     Home_Dashboard(),
-     Home(),
+     Bookings_List(),
      Profile(),
-     Bookings_List()
+
 
 
   ];
@@ -45,21 +44,14 @@ class _DashbaordState extends State<Dashbaord> {
             child:  BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(LineAwesomeIcons.home),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(LineAwesomeIcons.search),
-                  label: 'Search',
+                  icon: Icon(LineAwesomeIcons.bookmark),
+                  label: 'Bookings',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(LineAwesomeIcons.user),
                   label: 'Profile',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(LineAwesomeIcons.bookmark),
-                  label: 'Bookings',
-                ),
+
               ],
               currentIndex: _selectedIndex,
               selectedItemColor: Colors.amber[800],

@@ -43,7 +43,7 @@ class _ProfileState extends State<Profile> {
                       borderRadius: BorderRadius.all(Radius.circular(100)),
 
                     ),
-                    child: SvgPicture.asset("assets/s.svg"),
+                    child: SvgPicture.asset("assets/e.svg"),
                   ),
                 ),
               ),
@@ -112,7 +112,7 @@ class _ProfileState extends State<Profile> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Your Name",
+                            Text("Restaurant Name",
                               style: GoogleFonts.poppins(
                                 fontSize: 10,
                                 color: Colors.white.withOpacity(.5),
@@ -159,7 +159,7 @@ class _ProfileState extends State<Profile> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Your Email",
+                            Text("Restaurant Email",
                               style: GoogleFonts.poppins(
                                 fontSize: 10,
                                 color: Colors.white.withOpacity(.5),

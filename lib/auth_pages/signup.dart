@@ -42,25 +42,30 @@ class SignUpState extends State<SignUp> {
   String url;
 
   Future pickImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
       _imageFile = File(pickedFile.path);
     });
   }
 
-  uploadImageToFirebase(BuildContext context) async {
+  uploadImageToFirebase(var users,BuildContext context,String uid) async {
     final _firebaseStorage = FirebaseStorage.instance;
     final _imagePicker = ImagePicker();
 
     if (_imageFile != null){
       //Upload to Firebase
       var snapshot = await _firebaseStorage.ref()
-          .child('images/imageName')
+          .child('images/imageName'+uid+DateTime.now().toString())
           .putFile(_imageFile);
-      var downloadUrl = await snapshot.ref.getDownloadURL();
+      var downloadUrl = await snapshot.ref.getDownloadURL().then((value) => url=value);
       setState(() {
-        url = downloadUrl;
+
+        Firebase_Helper helper=new Firebase_Helper();
+        helper.insert_user_info(uid,_emailController.text,_fullnameController.text);
+        helper.inset_restuarent_info(url,_fullnameController.text,uid);
+        _responsehandle(users,message("Sign Up Completed", Icons.check_circle_outline, Colors.green),context);
+
       });
     } else {
       print('No Image Path Received');
@@ -253,37 +258,35 @@ class SignUpState extends State<SignUp> {
                                           borderRadius: BorderRadius.circular(5.0),
                                           side: BorderSide(color: Colors.white)),
                                       onPressed: () async {
-                                        uploadImageToFirebase(context);
-                                        // if (true) {
-                                        //   //onLoading(context);
-                                        //
-                                        //   try {
-                                        //     final  user = (await
-                                        //     _auth.createUserWithEmailAndPassword(
-                                        //       email: _emailController.text,
-                                        //       password: _passwordController.text,
-                                        //     )
-                                        //     ).user;
-                                        //     Firebase_Helper helper=new Firebase_Helper();
-                                        //    // helper.insert_user_info(user.uid,user.email,_fullnameController.text);
-                                        //     _responsehandle(user,message("Sign Up Completed", Icons.check_circle_outline, Colors.green),context);
-                                        //
-                                        //   } catch (error) {
-                                        //     print(error.code);
-                                        //     switch (error.code) {
-                                        //       case 'email-already-in-use':
-                                        //         _responsehandle(null,message("Duplicate Email", Icons.cancel, Colors.red),context);
-                                        //         break;
-                                        //       case 'network-request-failed':
-                                        //         _responsehandle(null,message("No Network Connection", Icons.network_check, Colors.orange),context);
-                                        //         break;
-                                        //       case 'invalid-email':
-                                        //         _responsehandle(null,message("Invalid Email", Icons.alternate_email, Colors.red),context);
-                                        //         break;
-                                        //
-                                        //     }
-                                        //   }
-                                        // }
+
+                                        if (true) {
+                                          //onLoading(context);
+
+                                          try {
+                                            final  user = (await
+                                            _auth.createUserWithEmailAndPassword(
+                                              email: _emailController.text,
+                                              password: _passwordController.text,
+                                            )
+                                            ).user;
+                                            uploadImageToFirebase(user,context,user.uid);
+
+                                          } catch (error) {
+                                            print(error.code);
+                                            switch (error.code) {
+                                              case 'email-already-in-use':
+                                                _responsehandle(null,message("Duplicate Email", Icons.cancel, Colors.red),context);
+                                                break;
+                                              case 'network-request-failed':
+                                                _responsehandle(null,message("No Network Connection", Icons.network_check, Colors.orange),context);
+                                                break;
+                                              case 'invalid-email':
+                                                _responsehandle(null,message("Invalid Email", Icons.alternate_email, Colors.red),context);
+                                                break;
+
+                                            }
+                                          }
+                                        }
                                       },
 
                                       textColor: Colors.black87,

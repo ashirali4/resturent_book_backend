@@ -17,6 +17,19 @@ class Firebase_Helper {
 
 
   }
+  void inset_restuarent_info(String image,String fullname,String user){
+
+    print(image);
+    databaseReference.child("resturants").child(user).set({
+      'id': user,
+      'image' : image,
+      'name' : fullname,
+      'reviews' : "234"
+
+    });
+
+
+  }
 
 
   void  create_booking(String res_id,String res_name,String date,String clock,String people,List<String> food,List<String> party,String image){
